@@ -248,31 +248,34 @@ if (USE_CUDA)
         "find_dependency(CUDAToolkit ${CUDAToolkit_VERSION})")
       enable_language(CUDA)
       if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.18")
-        # Support Maxwell GPUs (Default).
-        set(CMAKE_CUDA_ARCHITECTURES "50")
-        # Support other architectures depending on CUDA toolkit version.
-        if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "8.0")
-          # Support Pascal GPUs.
-          list(APPEND CMAKE_CUDA_ARCHITECTURES "60")
-        endif(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "8.0")
-        if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "9.0")
-          # Support Volta GPUs.
-          list(APPEND CMAKE_CUDA_ARCHITECTURES "70")
-        endif(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "9.0")
-        if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "10.0")
-          # Support Turing  GPUs.
-          list(APPEND CMAKE_CUDA_ARCHITECTURES "75")
-        endif(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "10.0")
-        if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "11.0")
-          # Support Ampere GPUs.
-          list(APPEND CMAKE_CUDA_ARCHITECTURES "80")
-        endif(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "11.0")
-        if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "11.8")
-          # Support Hopper GPUs.
-          list(APPEND CMAKE_CUDA_ARCHITECTURES "90")
-        endif(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "11.8")
-        message("-- Setting CUDA Architecture to ${CMAKE_CUDA_ARCHITECTURES}")
-      endif()
+        if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+          # Support Maxwell GPUs (Default).
+          set(CMAKE_CUDA_ARCHITECTURES "50")
+          # Support other architectures depending on CUDA toolkit version.
+          if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "8.0")
+            # Support Pascal GPUs.
+            list(APPEND CMAKE_CUDA_ARCHITECTURES "60")
+          endif(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "8.0")
+          if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "9.0")
+            # Support Volta GPUs.
+            list(APPEND CMAKE_CUDA_ARCHITECTURES "70")
+          endif(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "9.0")
+          if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "10.0")
+            # Support Turing  GPUs.
+            list(APPEND CMAKE_CUDA_ARCHITECTURES "75")
+          endif(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "10.0")
+          if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "11.0")
+            # Support Ampere GPUs.
+            list(APPEND CMAKE_CUDA_ARCHITECTURES "80")
+          endif(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "11.0")
+          if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "11.8")
+            # Support Hopper GPUs.
+            list(APPEND CMAKE_CUDA_ARCHITECTURES "90")
+          endif(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "11.8")
+          message("-- Setting CUDA Architecture to ${CMAKE_CUDA_ARCHITECTURES}")
+        else()
+          message("-- Using CUDA Architectures ${CMAKE_CUDA_ARCHITECTURES}")
+        endif()
 
       if (USE_CUDA STREQUAL "static")
         set(CERES_CUDA_TARGET_SUFFIX "_static")
